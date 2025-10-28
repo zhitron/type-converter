@@ -6,7 +6,7 @@
 
     <groupId>io.github.zhitron</groupId>
     <artifactId>type-converter</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>Type Converter</name>
     <description>
         一个轻量级的类型转换工具库，提供简单易用的API用于在不同数据类型之间进行转换。支持基本数据类型、集合类型、自定义对象等多种类型的转换，并具有良好的扩展性。

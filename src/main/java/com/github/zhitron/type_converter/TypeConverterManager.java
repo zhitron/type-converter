@@ -1,5 +1,9 @@
 package com.github.zhitron.type_converter;
 
+import com.github.zhitron.type_converter.number.NumberToBigDecimalTypeConverter;
+import com.github.zhitron.type_converter.number.NumberToBigIntegerTypeConverter;
+import com.github.zhitron.type_converter.number.StringToBigDecimalTypeConverter;
+import com.github.zhitron.type_converter.number.StringToBigIntegerTypeConverter;
 import com.github.zhitron.type_converter.primitive.*;
 import com.github.zhitron.type_converter.string.NumberToStringTypeConverter;
 import com.github.zhitron.type_converter.string.ObjectToStringTypeConverter;
@@ -25,6 +29,15 @@ public class TypeConverterManager {
      * 包括基本数据类型之间的转换、字符串转换、日期时间转换等
      */
     public static final TypeConverterManager DEFAULT = TypeConverterManager.of(typeConverterManager -> {
+
+        // 注册数字类型到BigDecimal和BigInteger的转换器
+        typeConverterManager
+                .register(NumberToBigDecimalTypeConverter.INSTANCE)
+                .register(NumberToBigIntegerTypeConverter.INSTANCE)
+                // 注册字符串类型到BigDecimal和BigInteger的转换器
+                .register(StringToBigDecimalTypeConverter.INSTANCE)
+                .register(StringToBigIntegerTypeConverter.INSTANCE);
+
         // 注册布尔型与其他基本数据类型之间的转换器
         typeConverterManager
                 .register(BooleanToByteTypeConverter.INSTANCE)

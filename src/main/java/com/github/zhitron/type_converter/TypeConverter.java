@@ -258,7 +258,7 @@ public abstract class TypeConverter<SourceType, TargetType> {
             }
         } catch (Throwable e) {
             // 捕获转换异常并重新抛出，添加上下文信息
-            throw new TypeConverterException("Failed to convert", e);
+            throw new TypeConverterException("Failed to convert [" + supportsSourceType() + "] to [" + supportsTargetType() + "] with '" + source + "'!", e);
         }
         // 转换失败或结果为null时返回默认值
         return defaultValue;
