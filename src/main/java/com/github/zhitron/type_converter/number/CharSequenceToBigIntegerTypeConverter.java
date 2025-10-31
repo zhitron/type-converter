@@ -7,24 +7,24 @@ import java.math.BigInteger;
 /**
  * 字符串到BigInteger类型转换器
  * <p>
- * 用于将字符串转换为BigInteger表示形式。
+ * 用于将字符串转换为BigInteger类型。
  * 该转换器直接使用BigInteger的构造函数进行转换。
  * 这是一个单例类，通过INSTANCE字段获取实例。
  * </p>
  *
  * @author zhitron
  */
-public class StringToBigIntegerTypeConverter extends CharSequenceTypeConverter<String, BigInteger> {
+public class CharSequenceToBigIntegerTypeConverter extends CharSequenceTypeConverter<CharSequence, BigInteger> {
     /**
      * 单例实例
      */
-    public static final StringToBigIntegerTypeConverter INSTANCE = new StringToBigIntegerTypeConverter();
+    public static final CharSequenceToBigIntegerTypeConverter INSTANCE = new CharSequenceToBigIntegerTypeConverter();
 
     /**
      * 构造函数，初始化目标类型为BigInteger.class
      */
-    protected StringToBigIntegerTypeConverter() {
-        super(String.class, BigInteger.class);
+    protected CharSequenceToBigIntegerTypeConverter() {
+        super(BigInteger.class);
     }
 
     /**
@@ -36,6 +36,6 @@ public class StringToBigIntegerTypeConverter extends CharSequenceTypeConverter<S
      */
     @Override
     protected BigInteger convertsUncheckedString(String input) throws Throwable {
-        return new BigInteger(input);
+        return StringToBigIntegerTypeConverter.INSTANCE.convertsUnchecked(input);
     }
 }

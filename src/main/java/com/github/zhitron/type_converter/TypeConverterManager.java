@@ -1,10 +1,16 @@
 package com.github.zhitron.type_converter;
 
-import com.github.zhitron.type_converter.number.NumberToBigDecimalTypeConverter;
-import com.github.zhitron.type_converter.number.NumberToBigIntegerTypeConverter;
-import com.github.zhitron.type_converter.number.StringToBigDecimalTypeConverter;
-import com.github.zhitron.type_converter.number.StringToBigIntegerTypeConverter;
+import com.github.zhitron.type_converter.number.*;
+import com.github.zhitron.type_converter.object.CharSequenceToLocaleTypeConverter;
+import com.github.zhitron.type_converter.object.StringToLocaleTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToByteTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToDoubleTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToFloatTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToIntegerTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToLongTypeConverter;
+import com.github.zhitron.type_converter.primitive.StringToShortTypeConverter;
 import com.github.zhitron.type_converter.primitive.*;
+import com.github.zhitron.type_converter.string.LocaleToStringTypeConverter;
 import com.github.zhitron.type_converter.string.NumberToStringTypeConverter;
 import com.github.zhitron.type_converter.string.ObjectToStringTypeConverter;
 import com.github.zhitron.type_converter.table.ResultSetToArrayTableTypeConverter;
@@ -30,13 +36,35 @@ public class TypeConverterManager {
      */
     public static final TypeConverterManager DEFAULT = TypeConverterManager.of(typeConverterManager -> {
 
-        // 注册数字类型到BigDecimal和BigInteger的转换器
         typeConverterManager
+                // 注册CharSequence到数值类型的转换器
+                .register(CharSequenceToBigDecimalTypeConverter.INSTANCE)
+                .register(CharSequenceToBigIntegerTypeConverter.INSTANCE)
+                .register(CharSequenceToByteTypeConverter.INSTANCE)
+                .register(CharSequenceToDoubleTypeConverter.INSTANCE)
+                .register(CharSequenceToFloatTypeConverter.INSTANCE)
+                .register(CharSequenceToIntegerTypeConverter.INSTANCE)
+                .register(CharSequenceToLongTypeConverter.INSTANCE)
+                .register(CharSequenceToNumberTypeConverter.INSTANCE)
+                .register(CharSequenceToShortTypeConverter.INSTANCE)
+                // 注册Number到BigDecimal/BigInteger的转换器
                 .register(NumberToBigDecimalTypeConverter.INSTANCE)
                 .register(NumberToBigIntegerTypeConverter.INSTANCE)
-                // 注册字符串类型到BigDecimal和BigInteger的转换器
+                // 注册String到数值类型的转换器
                 .register(StringToBigDecimalTypeConverter.INSTANCE)
-                .register(StringToBigIntegerTypeConverter.INSTANCE);
+                .register(StringToBigIntegerTypeConverter.INSTANCE)
+                .register(StringToByteTypeConverter.INSTANCE)
+                .register(StringToDoubleTypeConverter.INSTANCE)
+                .register(StringToFloatTypeConverter.INSTANCE)
+                .register(StringToIntegerTypeConverter.INSTANCE)
+                .register(StringToLongTypeConverter.INSTANCE)
+                .register(StringToNumberTypeConverter.INSTANCE)
+                .register(StringToShortTypeConverter.INSTANCE);
+
+        // 注册本地化语言环境类型转换器
+        typeConverterManager
+                .register(CharSequenceToLocaleTypeConverter.INSTANCE)
+                .register(StringToLocaleTypeConverter.INSTANCE);
 
         // 注册布尔型与其他基本数据类型之间的转换器
         typeConverterManager
@@ -78,6 +106,7 @@ public class TypeConverterManager {
 
         // 注册数字到字符串以及其他对象到字符串的转换器
         typeConverterManager
+                .register(LocaleToStringTypeConverter.INSTANCE)
                 .register(NumberToStringTypeConverter.INSTANCE)
                 .register(ObjectToStringTypeConverter.DEFAULT)
                 .register(ObjectToStringTypeConverter.LOWER_CASE)

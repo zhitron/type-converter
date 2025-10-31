@@ -2,8 +2,11 @@ package com.github.zhitron.type_converter;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.*;
 import java.util.Date;
+import java.util.Locale;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +15,104 @@ import static org.junit.Assert.*;
  */
 public class TypeConverterManagerTest {
     protected TypeConverterManager typeConverterManager = TypeConverterManager.DEFAULT;
+
+    /**
+     * 测试本地化语言环境类型转换功能
+     */
+    @Test
+    public void testLocaleConversions() {
+        // String转Locale
+        Locale locale1 = typeConverterManager.converts("zh_CN", Locale.class, null);
+        assertEquals("zh", locale1.getLanguage());
+        assertEquals("CN", locale1.getCountry());
+
+        // CharSequence转Locale
+        Locale locale2 = typeConverterManager.converts(new StringBuilder("en_US"), Locale.class, null);
+        assertEquals("en", locale2.getLanguage());
+        assertEquals("US", locale2.getCountry());
+
+        // Locale转String
+        Locale locale3 = new Locale("fr", "FR");
+        String localeStr = typeConverterManager.converts(locale3, String.class, null);
+        assertEquals("fr-FR", localeStr);
+    }
+
+    /**
+     * 测试CharSequence到数值类型的转换功能
+     */
+    @Test
+    public void testCharSequenceToNumberTypes() {
+        // CharSequence转BigDecimal
+        assertEquals(new BigDecimal("123.45"),
+                typeConverterManager.converts("123.45", BigDecimal.class, null));
+
+        // CharSequence转BigInteger
+        assertEquals(new BigInteger("12345"),
+                typeConverterManager.converts("12345", BigInteger.class, null));
+
+        // CharSequence转Byte
+        assertEquals(Byte.valueOf((byte) 123),
+                typeConverterManager.converts("123", Byte.class, null));
+
+        // CharSequence转Double
+        assertEquals(Double.valueOf(123.45),
+                typeConverterManager.converts("123.45", Double.class, null));
+
+        // CharSequence转Float
+        assertEquals(Float.valueOf(123.45f),
+                typeConverterManager.converts("123.45", Float.class, null));
+
+        // CharSequence转Integer
+        assertEquals(Integer.valueOf(123),
+                typeConverterManager.converts("123", Integer.class, null));
+
+        // CharSequence转Long
+        assertEquals(Long.valueOf(123L),
+                typeConverterManager.converts("123", Long.class, null));
+
+        // CharSequence转Short
+        assertEquals(Short.valueOf((short) 123),
+                typeConverterManager.converts("123", Short.class, null));
+        // 带千位分隔符的数值
+        assertEquals(new BigDecimal("1234.56"),
+                typeConverterManager.converts("1,234.56", Number.class, null));
+
+        // 科学计数法
+        assertEquals(new Double(1.23E4),
+                typeConverterManager.converts("1.23E4", Double.class, null));
+
+        // 负数
+        assertEquals(Integer.valueOf(-123),
+                typeConverterManager.converts("-123", Integer.class, null));
+
+        // 带正号的数
+        assertEquals(Integer.valueOf(123),
+                typeConverterManager.converts("+123", Integer.class, null));
+
+        // 小数转整数(截断)
+        assertEquals(Double.valueOf(123.45),
+                typeConverterManager.converts("123.45", Double.class, null));
+
+        // Number转BigDecimal
+        assertEquals(new BigDecimal("123"),
+                typeConverterManager.converts(123, BigDecimal.class, null));
+
+        // Number转BigInteger
+        assertEquals(new BigInteger("123"),
+                typeConverterManager.converts(123, BigInteger.class, null));
+        // 无效的数值字符串
+        assertNull(typeConverterManager.converts("invalid_number", Integer.class, null));
+
+        // 空字符串转数值
+        assertNull(typeConverterManager.converts("", Integer.class, null));
+
+        // null输入处理
+        assertNull(typeConverterManager.converts(null, Integer.class, null));
+
+        // 使用默认值
+        assertEquals(Integer.valueOf(0),
+                typeConverterManager.converts("invalid", Integer.class, 0));
+    }
 
     /**
      * 测试Boolean类型转换为其他类型的功能

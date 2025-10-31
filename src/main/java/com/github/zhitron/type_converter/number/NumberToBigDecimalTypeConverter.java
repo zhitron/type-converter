@@ -54,7 +54,7 @@ public class NumberToBigDecimalTypeConverter extends TypeConverter<Number, BigDe
      *
      * @param source 源对象(数字类型)
      * @return 转换后的BigDecimal对象
-     * @throws IllegalArgumentException 当输入为NaN或无穷大时抛出
+     * @throws Throwable 转换过程中发生错误时抛出
      */
     @Override
     public BigDecimal convertsUnchecked(Number source) throws Throwable {

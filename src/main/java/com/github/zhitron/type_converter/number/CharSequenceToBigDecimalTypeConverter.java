@@ -14,17 +14,17 @@ import java.math.BigDecimal;
  *
  * @author zhitron
  */
-public class StringToBigDecimalTypeConverter extends CharSequenceTypeConverter<String, BigDecimal> {
+public class CharSequenceToBigDecimalTypeConverter extends CharSequenceTypeConverter<CharSequence, BigDecimal> {
     /**
      * 单例实例
      */
-    public static final StringToBigDecimalTypeConverter INSTANCE = new StringToBigDecimalTypeConverter();
+    public static final CharSequenceToBigDecimalTypeConverter INSTANCE = new CharSequenceToBigDecimalTypeConverter();
 
     /**
      * 构造函数，初始化目标类型为BigDecimal.class
      */
-    protected StringToBigDecimalTypeConverter() {
-        super(String.class, BigDecimal.class);
+    protected CharSequenceToBigDecimalTypeConverter() {
+        super(BigDecimal.class);
     }
 
     /**
@@ -36,6 +36,6 @@ public class StringToBigDecimalTypeConverter extends CharSequenceTypeConverter<S
      */
     @Override
     protected BigDecimal convertsUncheckedString(String input) throws Throwable {
-        return new BigDecimal(input);
+        return StringToBigDecimalTypeConverter.INSTANCE.convertsUnchecked(input);
     }
 }
